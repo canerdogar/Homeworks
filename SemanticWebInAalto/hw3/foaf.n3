@@ -1,0 +1,10 @@
+@base <http://aalto.fi/>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix dc: <http://purl.org/dc/elements/1.1/>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix dbr: <http://dbpedia.org/ontology/>.
+<#erdogac1> foaf:firstName "Can";
+foaf:lastName "Erdogar";
+foaf:birthday "1994-2-19"^^xsd:date;
+foaf:topic_interest <http://www.yso.fi/onto/koko/p36700>;
+dbr:birthPlace <http://sws.geonames.org/7733235/>.

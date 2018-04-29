@@ -1,0 +1,6 @@
+yes
+~q(y),r(y)$~r(A)$~q(A)
+p(x),q(y)$~q(A)$p(x)
+~q(y),r(y)$~r(A)$~q(A)
+q(z),~p(A)$~q(A)$~p(A)
+p(x)$~p(A)$empty_clause

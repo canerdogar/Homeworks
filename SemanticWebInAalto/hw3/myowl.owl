@@ -1,0 +1,116 @@
+Prefix(:=<http://example.com/owl/families/>)
+Prefix(otherOnt:=<http://example.org/otherOntologies/families/>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(bio:=<http://purl.org/vocab/bio/0.1/>)
+Ontology(<http://example.com/owl/families>
+
+	Declaration( NamedIndividual( :Martti ) )
+	Declaration( NamedIndividual( :Soile ) )
+	Declaration( NamedIndividual( :Maija ) )
+	Declaration( NamedIndividual( :Mika ) )
+	Declaration( NamedIndividual( :Sauli ) )
+	Declaration( NamedIndividual( :Seija ) )
+	Declaration( NamedIndividual( :Matti ) )
+	Declaration( NamedIndividual( :Mikko ) )
+	Declaration( NamedIndividual( :Saara ) )
+	Declaration( NamedIndividual( :Simo ) )
+	#DifferentIndividuals( :Martti :Soile :Maija :Mika :Sauli :Seija :Matti :Mikko :Saara :Simo)
+
+	Declaration( Class( :Person ) )
+	Declaration( Class( :Man ) )
+	Declaration( Class( :Woman ) )
+	Declaration( Class( :Teenager ) )
+	Declaration( ObjectProperty( :child ) )
+	Declaration( DataProperty( :hasAge ) )
+
+
+	AsymmetricObjectProperty( :child )
+
+	SubClassOf( :Woman :Person )
+	SubClassOf( :Man :Person )
+	DisjointClasses( :Woman :Man )
+
+	
+
+	ClassAssertion( :Woman :Soile )
+	#ClassAssertion( :Mother :Soile)
+	ClassAssertion( :Man :Martti )
+	ClassAssertion( :Woman :Maija )
+	#ClassAssertion( :Mother :Maija)
+	ClassAssertion( :Man :Mika )
+	ClassAssertion( :Woman :Matti )
+	ClassAssertion( :Man :Mikko )
+	ClassAssertion( :Woman :Seija )
+	#ClassAssertion( :Mother :Seija)
+	ClassAssertion( :Man :Sauli )
+	ClassAssertion( :Woman :Saara )
+	ClassAssertion( :Man :Simo )
+
+	ObjectPropertyAssertion( :child :Martti :Maija )
+	ObjectPropertyAssertion( :child :Martti :Sauli )
+	ObjectPropertyAssertion( :child :Soile :Maija )
+	ObjectPropertyAssertion( :child :Soile :Sauli )
+
+	ObjectPropertyAssertion( :child :Sauli :Saara )
+	ObjectPropertyAssertion( :child :Sauli :Simo )
+	ObjectPropertyAssertion( :child :Seija :Saara )
+	ObjectPropertyAssertion( :child :Seija :Simo )
+	
+	ObjectPropertyAssertion( :child :Maija :Matti )
+	ObjectPropertyAssertion( :child :Maija :Mikko )
+	ObjectPropertyAssertion( :child :Mika :Matti )
+	ObjectPropertyAssertion( :child :Mika :Mikko )
+
+	Declaration( Class( :Mother ) )
+	#ObjectPropertyDomain( :Mother :Person ) 
+	#ObjectPropertyRange( :Mother :Person ) 
+	#SubClassOf( :Mother :Woman )
+	EquivalentClasses( 
+	  :Mother 
+	  ObjectIntersectionOf(
+	     :Woman
+	     ObjectSomeValuesFrom( :child :Person )
+   		)
+	)
+	#FunctionalObjectProperty( :Mother )
+
+	Declaration( ObjectProperty( :grandChild ) )
+	SubObjectPropertyOf( ObjectPropertyChain( :child :child ) :grandChild )
+	Declaration( ObjectProperty( :grandParent ) )
+	InverseObjectProperties( :grandParent :grandChild )
+
+	Declaration( ObjectProperty( :parent ) )
+	InverseObjectProperties( :child :parent )
+
+	Declaration( ObjectProperty( :ancestor ) )
+	SubObjectPropertyOf( 
+		ObjectPropertyChain( :parent :parent ) 
+		:ancestor
+	)
+
+	Declaration( ObjectProperty( :spouse ) )
+	SymmetricObjectProperty( :spouse )
+	InverseFunctionalObjectProperty( :spouse )
+	ObjectPropertyAssertion( :spouse :Martti :Soile )
+	EquivalentObjectProperties( :child bio:child )
+
+	SubClassOf(
+     :Teenager
+     DataSomeValuesFrom( :hasAge
+       DatatypeRestriction( xsd:integer
+         xsd:minExclusive "13"^^xsd:integer
+         xsd:maxInclusive "19"^^xsd:integer
+       )
+     )
+   )
+	DataPropertyDomain( :hasAge :Person )
+	DataPropertyRange( :hasAge xsd:nonNegativeInteger )
+	FunctionalDataProperty( :hasAge )
+
+	DataPropertyAssertion( :hasAge :Matti "15"^^xsd:integer )
+	DataPropertyAssertion( :hasAge :Mikko "18"^^xsd:integer )
+	DataPropertyAssertion( :hasAge :Saara "21"^^xsd:integer )
+	DataPropertyAssertion( :hasAge :Simo "2"^^xsd:integer )
+
+)

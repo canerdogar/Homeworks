@@ -1,0 +1,130 @@
+\documentclass{article}
+\usepackage[a4paper, total={6.5in, 10in}]{geometry}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{placeins} % put this in your pre-amble
+\usepackage{flafter}  % put this in your pre-amble
+\usepackage{spverbatim}
+
+\title{CS-E4410 Semantic Web}
+\author{
+  Erdogar, Can\      \texttt{625391}
+}
+\date{ 30 March 2017}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+
+\begin{document}
+
+\maketitle
+
+\section{Creating a SKOS vocabulary}
+
+\section{Creating an OWL ontology}
+
+myowl.owl is attached.
+
+\section{OWL syntaxes}
+
+Manchester OWL Syntax:machine readable,for ontology editors and the other apps. \\
+OWL/XML:independent XML serialisation \\
+RDF/XML:extension of existing OWL/RDF \\
+Turtle:concise and easy readable \\
+
+\section{Doing inference with a rule system}
+
+\begin{verbatim}
+@prefix : <http://example.com/owl/families/> .
+
+{ ?b :child ?a. ?c :child ?a. } => { ?b :spouse ?c } .
+\end{verbatim}
+
+\section{Implementing inference with SPARQL rules}
+
+\begin{verbatim}
+prefix : <http://example.com/owl/families/>
+Construct {
+?dad :spouse ?mum .
+} WHERE {
+?dad :child ?x .
+ ?mum :child ?x .
+?dad a :Man.
+?mum a :Woman.
+FILTER(?dad != ?mum)
+}
+
+\end{verbatim}
+
+\section{Implementing OWL inference with a rule system}
+
+\begin{verbatim}
+@prefix : <http://example.com/owl/families/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+{?p rdf:type owl:SymmetricProperty. ?x ?p ?y} => {?y ?p ?x.}. #spouse
+
+----------------------------------
+
+\end{verbatim}
+
+\begin{verbatim}
+@prefix : <http://example.com/owl/families/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+{?p1 owl:equivalentProperty ?p2. ?x ?p1 ?y.} => {?x ?p2 ?y}. #bio:child
+
+----------------------------------
+
+\end{verbatim}
+
+\begin{verbatim}
+@prefix : <http://example.com/owl/families/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+{?p1 owl:inverseOf ?p2. ?x ?p1 ?y.} => {?y ?p2 ?x.}. #parent
+
+----------------------------------
+
+\end{verbatim}
+
+\begin{verbatim}
+@prefix : <http://example.com/owl/families/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+{?p owl:propertyChainAxiom (?p1 ?p2). ?u1 ?p1 ?u2. ?u2 ?p2 ?u3.} => {?u1 ?p ?u3.}. #grandchild
+
+----------------------------------
+
+\end{verbatim}
+
+\begin{verbatim}
+@prefix : <http://example.com/owl/families/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+{?p1 owl:inverseOf ?p2. ?x ?p1 ?y.} => {?y ?p2 ?x.}.
+{?p1 owl:propertyChainAxiom (?p3 ?p4). ?u1 ?p3 ?u2. ?u2 ?p4 ?u3.} => {?u1 ?p1 ?u3.}. # ancestor
+
+----------------------------------
+
+\end{verbatim}
+
+\section{Using RDF knowledge in a recommendation application}
+hw3.py and foaf.n3 is attached.
+
+\section{Feedback}
+I have a knowledge about SKOS, OWL and rules thanks to this exercise right now.I didn't attend the lectures so I cant say anything to evaluate it but materials in mycourses was enough to solve the exercise.
+
+\end{document}
+
+​
+
+
+
